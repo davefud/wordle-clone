@@ -48,7 +48,6 @@ let history = [
 
 console.log(`secret is '${secret}'`);
 console.log(`history is '${history}'`);
-console.log(`currentAttempt is '${currentAttempt}'`);
 
 let grid = document.getElementById('grid');
 
