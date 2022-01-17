@@ -20,31 +20,37 @@ let wordList = [
     'abbey',
     'favor',
     'drink',
+    'farts',
+    'share',
+    'holly',
     'sleep',
     'query',
     'gorge',
+    'apple',
     'crank',
     'slump',
     'banal',
     'tiger',
     'siege',
+    'pious',
     'sheep',
     'truss',
     'boost',
     'rebus',
-    'fauna'
+    'money',
+    'fauna',
+    'peeps',
+    'words',
+    'babel',
+    'pixie'
 ];
 
 let randomIndex = Math.floor(Math.random() * wordList.length);
 let secret = wordList[randomIndex];
 
 let currentAttempt = '';
-let history = [
-    // 'farts',
-    // 'rohan',
-    // 'moldy',
-    // 'after'
-];
+let history = [];
+let gameState = 'playing';
 
 console.log(`secret is '${secret}'`);
 console.log(`history is '${history}'`);
@@ -59,21 +65,31 @@ window.addEventListener('keydown', onKeyDown);
 function onKeyDown(e) {
     const key = e.key.toLowerCase();
     const attemptLength = currentAttempt.length;
-
-    if (attemptLength === 5 && key === 'enter') {
+    if (gameState !== 'playing') {
+        return;
+    }
+    
+    if (key === 'enter') {
+        if (attemptLength < 5) {
+            showAlert('Not enough letters');
+            return;
+        }
+        // if (attemptLength === 5) {
         if (!wordList.includes(currentAttempt)) {
-            showAlert();
+            showAlert('Not in word list');
             return;
         }
         history.push(currentAttempt);
         currentAttempt = '';
+        // }
+
     }
     if (attemptLength > 0 && key === 'backspace') {
         currentAttempt = currentAttempt.slice(0, -1);
     }
 
-    if (attemptLength < 5 && key.length === 1) {
-        if (/[a-z]/.test(key)) {
+    if (attemptLength < 5) {
+        if (/^[a-z]$/.test(key)) {
             currentAttempt += key;
         }
     }
@@ -140,8 +156,9 @@ function getBgColor(attempt, i) {
     return '#b59f3b';
 }
 
-function showAlert() {
+function showAlert(message) {
     const alertElement = document.getElementById('word-error');
+    alertElement.textContent = message;
     alertElement.style.visibility = 'visible';
     setTimeout(() => {alertElement.style.visibility = 'hidden'}, 1500);
 }

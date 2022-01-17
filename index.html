@@ -1,7 +1,9 @@
-<h1>Wordle</h1>
-<div id="game-board">
-    <div id="word-error" class="word-error">Not in word list</div>
-    <div id="grid"></div>
+<div id="game">
+    <h1>Wordle</h1>
+    <div id="word-error" class="word-error"></div>
+    <div id="game-board">
+        <div id="grid"></div>
+    </div>
 </div>
 <style>
     body, html {
@@ -13,7 +15,7 @@
     }
     h1 {
         font-size: 2.25rem;
-        letter-spacing: 0.5rem;
+        letter-spacing: 0.25rem;
     }
     .cell {
         width: 40px;
@@ -22,7 +24,7 @@
         display: inline-block;
         padding: 10px;
         margin: 2px;
-        font-size: 28px;
+        font-size: 25px;
         font-weight: 700;
         line-height: 40px;
         vertical-align: top;
@@ -41,6 +43,13 @@
         border-radius: 5px;
         font-weight: 600;
         visibility: hidden;
+    }
+    #game-board {
+        min-width: 350px;
+        /* height: calc(100vh - 90px); */
+        border-top: 1px solid #3a3a3c;
+        margin: 0 150px;
+        padding-top: 150px;
     }
 </style>
 <script src="index.js"></script>

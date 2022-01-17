@@ -27,7 +27,7 @@
       - missing letters are gray
       - correct guesses + positions are green
       - don't let unknown words pass
-        - shake the active row on the word we don't know
+        - shake the active row on the word we don't know (also incomplete word)
       - secret has a single letter then additional letters in guess are gray
       - multiple of same letter in secret show with above rules
     - keyboard
