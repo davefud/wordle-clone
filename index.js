@@ -80,7 +80,6 @@ function onKeyDown(e) {
     }
 
     updateGrid();
-    console.log(currentAttempt);
 }
 
 function buildGrid() {
