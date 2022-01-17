@@ -1,5 +1,6 @@
 <h1>Wordle</h1>
 <div id="game-board">
+    <div id="word-error" class="word-error">Not in word list</div>
     <div id="grid"></div>
 </div>
 <style>
@@ -25,6 +26,21 @@
         font-weight: 700;
         line-height: 40px;
         vertical-align: top;
+    }
+    .word-error {
+        position: absolute;
+        top: 100px;
+        left: calc(50% - 75px);
+        background-color: #b8b8b8;
+        color: #181818;
+        text-transform: none;
+        height: 50px;
+        width: 150px;
+        margin: 0 auto;
+        line-height: 50px;
+        border-radius: 5px;
+        font-weight: 600;
+        visibility: hidden;
     }
 </style>
 <script src="index.js"></script>
