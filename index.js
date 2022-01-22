@@ -18,9 +18,13 @@ let wordList = [
     'swipe',
     'tangy',
     'abbey',
+    'prios',
     'favor',
+    'paper',
     'drink',
     'farts',
+    'fight',
+    'shark',
     'share',
     'holly',
     'sleep',
@@ -28,60 +32,94 @@ let wordList = [
     'gorge',
     'apple',
     'crank',
+    'pique',
+    'pears',
+    'puppy',
+    'modal',
     'slump',
     'banal',
     'tiger',
+    'spend',
+    'windy',
+    'trend',
     'siege',
     'pious',
     'sheep',
+    'fiend',
+    'tolls',
+    'pilot',
     'truss',
+    'photo',
     'boost',
+    'boron',
+    'robot',
+    'bosco',
     'rebus',
+    'tight',
+    'model',
     'money',
+    'truth',
+    'polar',
     'fauna',
     'peeps',
     'words',
     'babel',
-    'pixie'
+    'peers',
+    'speed',
+    'trend',
+    'night',
+    'pixie',
+    'ready',
+    'hello',
+    'rough',
+    'rally',
+    'topic',
+    'faith',
+    'pupil',
+    'worst',
+    'react',
+    'reign',
+    'after',
+    'ready',
+    'catch',
+    'toast'
 ];
 
 let randomIndex = Math.floor(Math.random() * wordList.length);
 let secret = wordList[randomIndex];
 
+console.log(`secret is '${secret}'`);
+
 let currentAttempt = '';
 let history = [];
 let gameState = 'playing';
-
-console.log(`secret is '${secret}'`);
-console.log(`history is '${history}'`);
-
-let grid = document.getElementById('grid');
-
-buildGrid();
-updateGrid();
-
-window.addEventListener('keydown', onKeyDown);
+const GREEN = '#538d4e';
+const GRAY = '#303030';
+const YELLOW = '#b59f3b';
 
 function onKeyDown(e) {
     const key = e.key.toLowerCase();
     const attemptLength = currentAttempt.length;
-    if (gameState !== 'playing') {
+    if (gameState !== 'playing' || history.length > 6) {
         return;
     }
-    
+
     if (key === 'enter') {
         if (attemptLength < 5) {
             showAlert('Not enough letters');
             return;
         }
-        // if (attemptLength === 5) {
+
         if (!wordList.includes(currentAttempt)) {
             showAlert('Not in word list');
             return;
         }
+
         history.push(currentAttempt);
         currentAttempt = '';
-        // }
+        if (history.length > 5) {
+            // gameState = 'lost';
+        }
 
     }
     if (attemptLength > 0 && key === 'backspace') {
@@ -109,6 +147,45 @@ function buildGrid() {
     }
 }
 
+function buildKeyboard() {
+    buildKeyboardRow('qwertyuiop', false);
+    buildKeyboardRow('asdfghjkl', false);
+    buildKeyboardRow('zxcvbnm', true);
+}
+
+function buildKeyboardRow(keys, lastLine) {
+    let row = document.createElement('div');
+    row.style.height = '60px';
+    let chars = keys.split('');
+    if (lastLine) {
+        let enterKey = document.createElement('button');
+        enterKey.textContent = 'ENTER';
+        enterKey.className = 'button ctrl-key';
+        row.appendChild(enterKey);
+        enterKey.addEventListener('click', onButtonClick);
+    }
+    for (let i=0; i<chars.length; i++) {
+        let button = document.createElement('button');
+        button.textContent = chars[i];
+        button.className = 'button key';
+        row.appendChild(button);
+        button.addEventListener('click', onButtonClick);
+    }
+    if (lastLine) {
+        let backspaceKey = document.createElement('button');
+        backspaceKey.className = 'button ctrl-key';
+        backspaceKey.textContent = 'DELETE';
+        row.appendChild(backspaceKey);
+        backspaceKey.addEventListener('click', onButtonClick);
+    }
+    let keyboard = document.getElementById('keyboard');
+    keyboard.appendChild(row);
+}
+
+function onButtonClick(e) {
+    console.log(e);
+}
+
 function updateGrid() {
     let row = grid.firstChild;
     for (let attempt of history) {
@@ -119,6 +196,9 @@ function updateGrid() {
 }
 
 function drawAttempt(row, attempt, isPastAttempt) {
+    if (!row || history.length > 6) {
+        return;
+    }
     for (let i=0; i<5; i++) {
         let cell = row.children[i];
         cell.textContent = attempt[i];
@@ -134,6 +214,7 @@ function drawAttempt(row, attempt, isPastAttempt) {
     }
 }
 
+
 function getBgColor(attempt, i) {
     const correctLetter = secret[i];
     const attemptedLetter = attempt[i];
@@ -143,17 +224,14 @@ function getBgColor(attempt, i) {
     }
 
     if (correctLetter === attemptedLetter) {
-        // green
-        return '#538d4e';
+        return GREEN;
     }
 
     if (secret.indexOf(attemptedLetter) === -1 ) {
-        // gray
-        return '#303030';
+        return GRAY;
     }
 
-    // Yellow
-    return '#b59f3b';
+    return YELLOW;
 }
 
 function showAlert(message) {
@@ -170,3 +248,12 @@ function highlightCell(cell, on) {
         cell.style.borderColor = '#3a3a3c';
     }
 }
+
+let grid = document.getElementById('grid');
+let keyboard = document.getElementById('keyboard');
+
+buildGrid();
+buildKeyboard();
+updateGrid();
+
+window.addEventListener('keydown', onKeyDown);

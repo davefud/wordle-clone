@@ -1,9 +1,10 @@
 <div id="game">
-    <h1>Wordle</h1>
+    <header>
+        <h1>Wordle</h1>
+    </header>
     <div id="word-error" class="word-error"></div>
-    <div id="game-board">
-        <div id="grid"></div>
-    </div>
+    <div id="grid"></div>
+    <div id="keyboard" class="keyboard"></div>
 </div>
 <style>
     body, html {
@@ -13,9 +14,14 @@
         text-align: center;
         text-transform: uppercase;
     }
+    header {
+        border-bottom: 1px solid #818384;
+        margin: 0 50px;
+    }
     h1 {
         font-size: 2.25rem;
         letter-spacing: 0.25rem;
+        margin: 10px 100px;
     }
     .cell {
         width: 40px;
@@ -44,12 +50,40 @@
         font-weight: 600;
         visibility: hidden;
     }
-    #game-board {
-        min-width: 350px;
-        /* height: calc(100vh - 90px); */
-        border-top: 1px solid #3a3a3c;
-        margin: 0 150px;
-        padding-top: 150px;
+    #game {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        justify-content: space-between;
+    }
+    #grid {
+        width: 100%;
+        max-height: 350px;
+    }
+    .button {
+        border: 1px solid #3a3a3c;
+        padding: 10px;
+        margin: 20px 2px;
+        display: inline-block;
+        background-color: #818384;
+        border-radius: 5px;
+        color: white;
+        text-transform: capitalize;
+    }
+    .button:hover {
+        cursor: pointer;
+    }
+    .key {
+        width: 40px;
+        height: 55px;
+    }
+    .ctrl-key {
+        width: 75px;
+        height: 55px;
+    }
+    .keyboard {
+        padding-bottom: 25px;
     }
 </style>
 <script src="index.js"></script>
