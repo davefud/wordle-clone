@@ -49,6 +49,7 @@ let wordList = [
     'tolls',
     'pilot',
     'truss',
+    'above',
     'photo',
     'boost',
     'boron',
@@ -59,8 +60,10 @@ let wordList = [
     'model',
     'money',
     'truth',
+    'serai',
     'polar',
     'fauna',
+    'about',
     'peeps',
     'words',
     'babel',
@@ -96,48 +99,17 @@ let gameState = 'playing';
 const GREEN = '#538d4e';
 const GRAY = '#303030';
 const YELLOW = '#b59f3b';
+const LIGHTGRAY = '#818384';
 
 function onKeyDown(e) {
     const key = e.key.toLowerCase();
-    const attemptLength = currentAttempt.length;
-    if (gameState !== 'playing' || history.length > 6) {
-        return;
-    }
-
-    if (key === 'enter') {
-        if (attemptLength < 5) {
-            showAlert('Not enough letters');
-            return;
-        }
-
-        if (!wordList.includes(currentAttempt)) {
-            showAlert('Not in word list');
-            return;
-        }
-
-        history.push(currentAttempt);
-        currentAttempt = '';
-        if (history.length > 5) {
-            // gameState = 'lost';
-        }
-
-    }
-    if (attemptLength > 0 && key === 'backspace') {
-        currentAttempt = currentAttempt.slice(0, -1);
-    }
-
-    if (attemptLength < 5) {
-        if (/^[a-z]$/.test(key)) {
-            currentAttempt += key;
-        }
-    }
-
-    updateGrid();
+    handleKey(key);
 }
 
 function buildGrid() {
     for (let i=0; i<6; i++) {
         let row = document.createElement('div');
+        row.className = 'grid-row';
         for (let j=0; j<5; j++) {
             let cell = document.createElement('div');
             cell.className = 'cell';
@@ -153,37 +125,53 @@ function buildKeyboard() {
     buildKeyboardRow('zxcvbnm', true);
 }
 
-function buildKeyboardRow(keys, lastLine) {
+function buildKeyboardRow(letters, lastLine) {
     let row = document.createElement('div');
-    row.style.height = '60px';
-    let chars = keys.split('');
+    row.className = 'row';
     if (lastLine) {
         let enterKey = document.createElement('button');
+        enterKey.id = 'create';
         enterKey.textContent = 'ENTER';
         enterKey.className = 'button ctrl-key';
+        enterKey.onclick = () => {
+            handleKey('enter');
+        };
         row.appendChild(enterKey);
-        enterKey.addEventListener('click', onButtonClick);
     }
-    for (let i=0; i<chars.length; i++) {
+    for (let letter of letters) {
         let button = document.createElement('button');
-        button.textContent = chars[i];
-        button.className = 'button key';
+        button.id = letter;
+        button.textContent = letter;
+        button.className = 'button letter';
+        button.onclick = () => {
+            handleKey(letter);
+        };
         row.appendChild(button);
-        button.addEventListener('click', onButtonClick);
     }
     if (lastLine) {
         let backspaceKey = document.createElement('button');
+        backspaceKey.id = 'backspace';
         backspaceKey.className = 'button ctrl-key';
-        backspaceKey.textContent = 'DELETE';
+        backspaceKey.textContent = 'BACKSPACE';
+        backspaceKey.onclick = () => {
+            handleKey('backspace');
+        };
         row.appendChild(backspaceKey);
-        backspaceKey.addEventListener('click', onButtonClick);
     }
     let keyboard = document.getElementById('keyboard');
     keyboard.appendChild(row);
 }
 
-function onButtonClick(e) {
-    console.log(e);
+function updateKeyboard() {
+    const letters = currentAttempt.split('');
+    for (let i=0; i<letters.length; i++) {
+        const letter = document.getElementById(letters[i]);
+        console.log(getBgColor(currentAttempt, i));
+        const backgroundColor = getBgColor(currentAttempt, i);
+        // if ()
+        letter.style.backgroundColor = backgroundColor;
+    }
+    
 }
 
 function updateGrid() {
@@ -247,6 +235,44 @@ function highlightCell(cell, on) {
     } else {
         cell.style.borderColor = '#3a3a3c';
     }
+}
+
+function handleKey(key) {
+    const attemptLength = currentAttempt.length;
+    if (gameState !== 'playing' || history.length > 6) {
+        return;
+    }
+
+    if (key === 'enter') {
+        if (attemptLength < 5) {
+            showAlert('Not enough letters');
+            return;
+        }
+
+        if (!wordList.includes(currentAttempt)) {
+            showAlert('Not in word list');
+            return;
+        }
+
+        history.push(currentAttempt);
+        updateKeyboard();
+        currentAttempt = '';
+        if (history.length > 5) {
+            showAlert(secret);
+        }
+
+    }
+    if (attemptLength > 0 && key === 'backspace') {
+        currentAttempt = currentAttempt.slice(0, -1);
+    }
+
+    if (attemptLength < 5) {
+        if (/^[a-z]$/.test(key)) {
+            currentAttempt += key;
+        }
+    }
+
+    updateGrid();
 }
 
 let grid = document.getElementById('grid');

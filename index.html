@@ -25,6 +25,7 @@
     }
     .cell {
         width: 40px;
+        min-width: 18px;
         height: 40px;
         border: 1px solid #3a3a3c;
         display: inline-block;
@@ -49,6 +50,7 @@
         border-radius: 5px;
         font-weight: 600;
         visibility: hidden;
+        padding: 0 10px;
     }
     #game {
         display: flex;
@@ -58,8 +60,24 @@
         justify-content: space-between;
     }
     #grid {
+        display: flex;
+        flex-direction: column;
         width: 100%;
         max-height: 350px;
+    }
+    .grid-row {
+        height: 75px;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+    }
+    .row {
+        height: 60px;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
     }
     .button {
         border: 1px solid #3a3a3c;
@@ -74,15 +92,17 @@
     .button:hover {
         cursor: pointer;
     }
-    .key {
+    .letter {
         width: 40px;
         height: 55px;
     }
     .ctrl-key {
-        width: 75px;
         height: 55px;
+        font-size: 11px;
     }
     .keyboard {
+        display: flex;
+        flex-direction: column;
         padding-bottom: 25px;
     }
 </style>
