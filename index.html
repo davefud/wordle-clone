@@ -1,115 +1,24 @@
-<div id="game">
-    <header>
-        <h1>Wordle</h1>
-    </header>
-    <div id="word-error" class="word-error"></div>
-    <div id="grid"></div>
-    <div id="keyboard" class="keyboard"></div>
-</div>
-<style>
-    body, html {
-        background-color: #111;
-        color: #d7dadc;
-        font-family: sans-serif;
-        text-align: center;
-        text-transform: uppercase;
-    }
-    header {
-        border-bottom: 1px solid #818384;
-        margin: 0 50px;
-    }
-    h1 {
-        font-size: 2.25rem;
-        letter-spacing: 0.25rem;
-        margin: 10px 100px;
-    }
-    .cell {
-        width: 40px;
-        min-width: 18px;
-        height: 40px;
-        border: 1px solid #3a3a3c;
-        display: inline-block;
-        padding: 10px;
-        margin: 2px;
-        font-size: 25px;
-        font-weight: 700;
-        line-height: 40px;
-        vertical-align: top;
-    }
-    .word-error {
-        position: absolute;
-        top: 100px;
-        left: calc(50% - 75px);
-        background-color: #b8b8b8;
-        color: #181818;
-        text-transform: none;
-        height: 50px;
-        width: 150px;
-        margin: 0 auto;
-        line-height: 50px;
-        border-radius: 5px;
-        font-weight: 600;
-        visibility: hidden;
-        padding: 0 10px;
-    }
-    #game {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-        justify-content: space-between;
-    }
-    #grid {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-height: 350px;
-    }
-    .grid-row {
-        height: 75px;
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        justify-content: center;
-    }
-    .row {
-        height: 60px;
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        justify-content: center;
-    }
-    .button {
-        border: 1px solid #3a3a3c;
-        padding: 10px;
-        margin: 20px 2px;
-        display: inline-block;
-        background-color: #818384;
-        border-radius: 5px;
-        color: white;
-        text-transform: capitalize;
-    }
-    .button:hover {
-        cursor: pointer;
-    }
-    .letter {
-        width: 40px;
-        height: 55px;
-    }
-    .ctrl-key {
-        height: 55px;
-        font-size: 11px;
-    }
-    .keyboard {
-        display: flex;
-        flex-direction: column;
-        padding-bottom: 25px;
-    }
-    @media (max-width: 500px) {
-        h1 {
-            font-size: 1.25rem;
-            margin: 0;
-        }
-    }
-</style>
-<script src="index.js"></script>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Wordle - A daily word game</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='index.css'>
+    </head>
+    <body>
+        <div id="game">
+            <header>
+                <h1>Wordle</h1>
+            </header>
+            <div id="word-error" class="word-error"></div>
+            <div id="grid"></div>
+            <div id="keyboard" class="keyboard"></div>
+        </div>
+        
+    </body>
+    <script src="index.js"></script>
+</html>
+
+
