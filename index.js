@@ -7,6 +7,7 @@ let wordList = [
     'solar',
     'sonar',
     'piano',
+    'blues',
     'horse',
     'tough',
     'house',
@@ -65,6 +66,7 @@ let wordList = [
     'fauna',
     'about',
     'peeps',
+    'black',
     'words',
     'babel',
     'peers',
@@ -75,6 +77,7 @@ let wordList = [
     'ready',
     'hello',
     'rough',
+    'brown',
     'rally',
     'topic',
     'faith',
@@ -82,9 +85,11 @@ let wordList = [
     'worst',
     'react',
     'reign',
+    'feast',
     'after',
     'ready',
     'catch',
+    'merry',
     'toast'
 ];
 
@@ -93,6 +98,8 @@ let secret = wordList[randomIndex];
 
 console.log(`secret is '${secret}'`);
 
+let secretMap = new Map();
+
 let currentAttempt = '';
 let history = [];
 let gameState = 'playing';
@@ -100,6 +107,8 @@ const GREEN = '#538d4e';
 const GRAY = '#303030';
 const YELLOW = '#b59f3b';
 const LIGHTGRAY = '#818384';
+
+const messages = ['Genius', 'magnificent', 'Impressive', 'Splendid', 'Great', 'Phew'];
 
 function onKeyDown(e) {
     const key = e.key.toLowerCase();
@@ -162,16 +171,30 @@ function buildKeyboardRow(letters, lastLine) {
     keyboard.appendChild(row);
 }
 
+function getBetterColor(a, b) {
+    if (a === GREEN || b === GREEN) {
+        return GREEN;
+    }
+    if (a === YELLOW || b === YELLOW) {
+        return YELLOW;
+    }
+    return GRAY;
+}
+
 function updateKeyboard() {
     const letters = currentAttempt.split('');
     for (let i=0; i<letters.length; i++) {
         const letter = document.getElementById(letters[i]);
-        console.log(getBgColor(currentAttempt, i));
-        const backgroundColor = getBgColor(currentAttempt, i);
-        // if ()
-        letter.style.backgroundColor = backgroundColor;
+        let color = getBgColor(currentAttempt, i);
+        let secretColor = secretMap.get(letters[i]);
+        let bestColor = getBetterColor(color, secretColor);
+
+        if (secretMap.has(letters[i])) {
+            secretMap.set(letters[i], bestColor);
+        }
+        letter.style.backgroundColor = bestColor;
     }
-    
+    console.log(secretMap);
 }
 
 function updateGrid() {
@@ -202,7 +225,6 @@ function drawAttempt(row, attempt, isPastAttempt) {
     }
 }
 
-
 function getBgColor(attempt, i) {
     const correctLetter = secret[i];
     const attemptedLetter = attempt[i];
@@ -215,7 +237,7 @@ function getBgColor(attempt, i) {
         return GREEN;
     }
 
-    if (secret.indexOf(attemptedLetter) === -1 ) {
+    if (secret.indexOf(attemptedLetter) === -1) {
         return GRAY;
     }
 
@@ -257,8 +279,11 @@ function handleKey(key) {
         history.push(currentAttempt);
         updateKeyboard();
         currentAttempt = '';
-        if (history.length > 5) {
-            showAlert(secret);
+  
+        if (attemptIsCorrect() || history.length > 5) {
+            gameState = 'complete';
+            const message = getMessage();
+            showAlert(message);
         }
 
     }
@@ -275,9 +300,35 @@ function handleKey(key) {
     updateGrid();
 }
 
+function attemptIsCorrect() {
+    for (const value of secretMap.values()) {
+        if (value !== GREEN) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function getMessage() {
+    if (history.length >= 6) {
+        return secret;
+    }
+    return messages[history.length - 1];
+}
+
+function initBestMatch() {
+    // Remove duplicate letters in secret
+    // then store into a map with the color GRAY
+    let secretSet = new Set(secret);
+    for (let letter of secretSet) {
+        secretMap.set(letter, GRAY);
+    }
+}
+
 let grid = document.getElementById('grid');
 let keyboard = document.getElementById('keyboard');
 
+initBestMatch();
 buildGrid();
 buildKeyboard();
 updateGrid();
