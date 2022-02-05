@@ -17,16 +17,16 @@ h1 {
     margin: 10px 100px;
 }
 .cell {
-    width: 40px;
+    width: 36px;
     min-width: 18px;
-    height: 40px;
+    height: 36px;
     border: 1px solid #3a3a3c;
     display: inline-block;
     padding: 10px;
     margin: 2px;
-    font-size: 25px;
+    font-size: 28px;
     font-weight: 700;
-    line-height: 40px;
+    line-height: 36px;
     vertical-align: top;
 }
 .word-error {
@@ -101,7 +101,7 @@ h1 {
 @media (max-width: 500px) {
     h1 {
         font-size: 1.25rem;
-        margin: 0;
+        margin: 19px 0;
     }
     header {
         margin: 0;

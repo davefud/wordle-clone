@@ -1,102 +1,8 @@
 'use strict'
 
-let wordList = [
-    'patio',
-    'darts',
-    'amend',
-    'solar',
-    'sonar',
-    'piano',
-    'blues',
-    'horse',
-    'tough',
-    'house',
-    'pizza',
-    'carbs',
-    'shire',
-    'panic',
-    'crabs',
-    'swipe',
-    'tangy',
-    'abbey',
-    'prios',
-    'favor',
-    'paper',
-    'drink',
-    'farts',
-    'fight',
-    'shark',
-    'share',
-    'holly',
-    'sleep',
-    'query',
-    'gorge',
-    'apple',
-    'crank',
-    'pique',
-    'pears',
-    'puppy',
-    'modal',
-    'slump',
-    'banal',
-    'tiger',
-    'spend',
-    'windy',
-    'trend',
-    'siege',
-    'pious',
-    'sheep',
-    'fiend',
-    'tolls',
-    'pilot',
-    'truss',
-    'above',
-    'photo',
-    'boost',
-    'boron',
-    'robot',
-    'bosco',
-    'rebus',
-    'tight',
-    'model',
-    'money',
-    'truth',
-    'serai',
-    'polar',
-    'fauna',
-    'about',
-    'peeps',
-    'black',
-    'words',
-    'babel',
-    'peers',
-    'speed',
-    'trend',
-    'night',
-    'pixie',
-    'ready',
-    'hello',
-    'rough',
-    'brown',
-    'rally',
-    'topic',
-    'faith',
-    'pupil',
-    'worst',
-    'react',
-    'reign',
-    'feast',
-    'after',
-    'ready',
-    'catch',
-    'merry',
-    'toast'
-];
-
+const wordList = WORDS;
 let randomIndex = Math.floor(Math.random() * wordList.length);
 let secret = wordList[randomIndex];
-
-console.log(`secret is '${secret}'`);
 
 let secretMap = new Map();
 
@@ -106,7 +12,10 @@ let gameState = 'playing';
 const GREEN = '#538d4e';
 const GRAY = '#303030';
 const YELLOW = '#b59f3b';
+
 const LIGHTGRAY = '#818384';
+const BORDER_NORMAL = '#3a3a3c';
+const BORDER_HIGHLIGHT = '#747478';
 
 const messages = ['Genius', 'magnificent', 'Impressive', 'Splendid', 'Great', 'Phew'];
 
@@ -194,7 +103,6 @@ function updateKeyboard() {
         }
         letter.style.backgroundColor = bestColor;
     }
-    console.log(secretMap);
 }
 
 function updateGrid() {
@@ -237,8 +145,17 @@ function getBgColor(attempt, i) {
         return GREEN;
     }
 
-    if (secret.indexOf(attemptedLetter) === -1) {
+    if (!secret.includes(attemptedLetter)) {
         return GRAY;
+    }
+
+    const secretLetterCount = secret.split(attemptedLetter).length - 1;
+    const attemptLetterCount =  attempt.split(attemptedLetter).length - 1;
+    if (attemptLetterCount > secretLetterCount) {
+        const firstIndex = attempt.indexOf(attemptedLetter);
+        if (i > firstIndex) {
+            return GRAY;
+        }
     }
 
     return YELLOW;
@@ -253,9 +170,9 @@ function showAlert(message) {
 
 function highlightCell(cell, on) {
     if (on) {
-        cell.style.borderColor = '#747478';
+        cell.style.borderColor = BORDER_HIGHLIGHT;
     } else {
-        cell.style.borderColor = '#3a3a3c';
+        cell.style.borderColor = BORDER_NORMAL;
     }
 }
 
@@ -277,17 +194,20 @@ function handleKey(key) {
         }
 
         history.push(currentAttempt);
+        localStorage.setItem('attempts', JSON.stringify(history));
         updateKeyboard();
         currentAttempt = '';
-  
-        if (attemptIsCorrect() || history.length > 5) {
+        
+        const success = attemptIsCorrect();
+        if (success || history.length > 5) {
             gameState = 'complete';
-            const message = getMessage();
+            localStorage.setItem('gameState', 'complete');
+            const message = getMessage(success);
             showAlert(message);
         }
 
     }
-    if (attemptLength > 0 && key === 'backspace') {
+    if (key === 'backspace') {
         currentAttempt = currentAttempt.slice(0, -1);
     }
 
@@ -309,28 +229,57 @@ function attemptIsCorrect() {
     return true;
 }
 
-function getMessage() {
-    if (history.length >= 6) {
+function getMessage(success) {
+    if (success) {
+        return messages[history.length - 1];
+    } else {
         return secret;
     }
-    return messages[history.length - 1];
 }
 
 function initBestMatch() {
     // Remove duplicate letters in secret
-    // then store into a map with the color GRAY
     let secretSet = new Set(secret);
     for (let letter of secretSet) {
         secretMap.set(letter, GRAY);
     }
 }
 
+function initGame() {
+    const savedSecret = localStorage.getItem('secret');
+    const savedHistory = localStorage.getItem('attempts');
+    const savedGameState = localStorage.getItem('gameState');
+    if (savedSecret) {
+        secret = savedSecret;
+    } else {
+        localStorage.setItem('secret', secret);
+    }
+    
+    console.log(`secret is '${secret}'`);
+    
+    if (savedHistory) {
+        history = JSON.parse(savedHistory);
+        for (let attempt of history) {
+            currentAttempt = attempt;
+            updateKeyboard(); 
+        }
+    }
+
+    if (savedGameState && (gameState === 'playing' || gameState === 'complete')) {
+        gameState = savedGameState;
+    } else {
+        localStorage.setItem('gameState', gameState);
+    }
+    currentAttempt = '';
+}
+
 let grid = document.getElementById('grid');
 let keyboard = document.getElementById('keyboard');
 
-initBestMatch();
 buildGrid();
 buildKeyboard();
+initBestMatch();
+initGame();
 updateGrid();
 
 window.addEventListener('keydown', onKeyDown);

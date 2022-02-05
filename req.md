@@ -18,7 +18,7 @@
 
 ## V1
 
-- You Provide five char guesses
+- You provide five char guesses
 - Each guess must be a word
 - When you press enter:
   - board
