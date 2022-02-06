@@ -121,8 +121,16 @@ function drawAttempt(row, attempt, isPastAttempt) {
     for (let i=0; i<5; i++) {
         let cell = row.children[i];
         cell.textContent = attempt[i];
+    }
+    for (let i=0; i<5; i++) {
+        let cell = row.children[i];
+        cell.textContent = attempt[i];
         if (isPastAttempt) {
-            cell.style.backgroundColor = getBgColor(attempt, i);
+            setTimeout(() => {
+                cell.className = 'cell flip';
+                setTimeout(() => { cell.style.backgroundColor = getBgColor(attempt, i); }, 300);
+            }, 100 * i);
+            
         } else {
             if (cell.textContent) {
                 highlightCell(cell, true);
@@ -165,7 +173,7 @@ function showAlert(message) {
     const alertElement = document.getElementById('word-error');
     alertElement.textContent = message;
     alertElement.style.visibility = 'visible';
-    setTimeout(() => {alertElement.style.visibility = 'hidden'}, 1500);
+    setTimeout(() => {alertElement.style.visibility = 'hidden'}, 1800);
 }
 
 function highlightCell(cell, on) {
@@ -203,7 +211,8 @@ function handleKey(key) {
             gameState = 'complete';
             localStorage.setItem('gameState', 'complete');
             const message = getMessage(success);
-            showAlert(message);
+            setTimeout(() => showAlert(message), 1250);
+        
         }
 
     }

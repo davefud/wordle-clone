@@ -23,7 +23,7 @@ h1 {
     border: 1px solid #3a3a3c;
     display: inline-block;
     padding: 10px;
-    margin: 2px;
+    margin: 2.25px;
     font-size: 28px;
     font-weight: 700;
     line-height: 36px;
@@ -98,6 +98,11 @@ h1 {
     flex-direction: column;
     padding-bottom: 25px;
 }
+.flip {
+    animation-name: flip-with-rotate;
+    animation-duration: 1s;
+  
+}
 @media (max-width: 500px) {
     h1 {
         font-size: 1.25rem;
@@ -105,5 +110,16 @@ h1 {
     }
     header {
         margin: 0;
+    }
+}
+@keyframes flip-with-rotate {
+    0% {
+        transform: rotateX(0);
+    }
+    25% {
+        transform: rotateX(92deg);
+    }
+    100% {
+    transform: rotateX(0);
     }
 }
