@@ -22,9 +22,6 @@ A browser-based clone of the popular Wordle word game.
 
 ```text
 wordle-clone/
-├── README.md
-├── index.html
-├── requirements.md
 ├── assets/
 │   └── images/
 │       └── gameplay.webp
@@ -34,6 +31,9 @@ wordle-clone/
 │   └── index.js      # Main JavaScript file
 ├── styles/
 │   └── index.css
+├── README.md
+├── index.html
+├── requirements.md
 └── ...
 ```
 
