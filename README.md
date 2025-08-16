@@ -20,6 +20,22 @@ A browser-based clone of the popular Wordle word game.
 
 ## Project Structure
 
+```text
+wordle-clone/
+├── README.md
+├── index.html
+├── assets/
+│   └── images/
+│       └── gameplay.webp
+├── src/
+│   ├── data/         # Data directory
+│   │   └── words.js  # Word list
+│   └── index.js      # Main JavaScript file
+├── styles/
+│   └── index.css
+└── ...
+```
+
 - [`index.html`](index.html): Main HTML file.
 - [`index.css`](index.css): Styles for the game board and keyboard.
 - [`index.js`](index.js): Game logic and UI interactions.
