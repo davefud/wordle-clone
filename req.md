@@ -2,9 +2,9 @@
 
 ## V0
 
-- You provide five character guesses
-- Each guess must be a word
-- When you press enter:
+- Player provides five character guesses
+  - Each guess must be a word
+- When player presses enter:
   - Board
     - [X] You see the status of your last guess
       - [X] letters that are in the wrong place are yellow
@@ -18,9 +18,9 @@
 
 ## V1
 
-- You provide five character guesses
-- Each guess must be a word
-- When you press enter:
+- Player provides five character guesses
+  - Each guess must be a word
+- When player presses enter:
   - board
     - [X] You see the status of your last guess
       - [X] letters that are in the wrong place are yellow
@@ -33,8 +33,8 @@
     - keyboard
       - [X] reflects data of the most correct attempted words
       - [X] third row contains enter key [...] backspace key
-      - [X] you can also input by typing
-      - [X] when you press enter, each letter animates into rotating letter
+      - [X] player can also input by typing
+      - [X] when player presses enter, each letter animates into rotating letter
   - [X] You only see past and active attempt
   - [X] You only get 6 word attempts then the game is over
     - [X] Display the secret word
