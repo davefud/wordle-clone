@@ -29,6 +29,10 @@ A browser-based clone of the popular Wordle word game.
 
 - Modern web browser (Chrome, Firefox, Edge, Safari) on desktop or mobile.
 
+## Gameplay
+
+![Wordle Gameplay](./assets/images/gameplay.webp)
+
 ## License
 
 MIT
