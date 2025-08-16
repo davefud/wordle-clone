@@ -129,7 +129,7 @@ function drawAttempt(row, attempt, isPastAttempt) {
             setTimeout(() => {
                 cell.className = 'cell flip';
                 setTimeout(() => { cell.style.backgroundColor = getBgColor(attempt, i); }, 300);
-            }, 100 * i);
+            }, 125 * i);
             
         } else {
             if (cell.textContent) {
